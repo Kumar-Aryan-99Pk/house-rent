@@ -1,5 +1,6 @@
 import API from "../services/api";
 import { Link } from "react-router-dom";
+
 function PropertyCard({ property }) {
 
     const handleDelete = async () => {
@@ -36,9 +37,11 @@ function PropertyCard({ property }) {
 
                     <h5 className="card-title">{property.title}</h5>
 
-                    <p> {property.location}</p>
-                    <p> ₹{property.price}</p>
-                    <p> {property.type}</p>
+                    <p>{property.description}</p>
+
+                    <p>📍 {property.location}</p>
+                    <p>💰 ₹{property.price}</p>
+                    <p>🏠 {property.type}</p>
 
                     <div className="mt-3 d-flex gap-2">
 
