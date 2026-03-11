@@ -1,62 +1,69 @@
 import API from "../services/api";
-
+import { Link } from "react-router-dom";
 function PropertyCard({ property }) {
 
-  const handleDelete = async () => {
+    const handleDelete = async () => {
 
-    const confirmDelete = window.confirm("Delete this property?");
-    if (!confirmDelete) return;
+        const confirmDelete = window.confirm("Delete this property?");
+        if (!confirmDelete) return;
 
-    try {
+        try {
 
-      const token = localStorage.getItem("token");
+            const token = localStorage.getItem("token");
 
-      await API.delete(`/properties/${property._id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`
+            await API.delete(`/properties/${property._id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            window.location.reload();
+
+        } catch (error) {
+
+            alert("Failed to delete property");
+
         }
-      });
 
-      window.location.reload();
+    };
 
-    } catch (error) {
+    return (
+        <div className="col-xl-3 col-lg-4 col-md-6 mb-4">
 
-      alert("Failed to delete property");
+            <div className="card shadow-sm h-100">
 
-    }
+                <div className="card-body">
 
-  };
+                    <h5 className="card-title">{property.title}</h5>
 
-  return (
-    <div className="col-xl-3 col-lg-4 col-md-6 mb-4">
+                    <p> {property.location}</p>
+                    <p> ₹{property.price}</p>
+                    <p> {property.type}</p>
 
-      <div className="card shadow-sm h-100">
+                    <div className="mt-3 d-flex gap-2">
 
-        <div className="card-body">
+                        <Link
+                            className="btn btn-warning btn-sm"
+                            to={`/edit-property/${property._id}`}
+                        >
+                            Edit
+                        </Link>
 
-          <h5 className="card-title">{property.title}</h5>
+                        <button
+                            className="btn btn-danger btn-sm"
+                            onClick={handleDelete}
+                        >
+                            Delete
+                        </button>
 
-          <p>📍 {property.location}</p>
-          <p>💰 ₹{property.price}</p>
-          <p>🏠 {property.type}</p>
+                    </div>
 
-          <div className="mt-3">
+                </div>
 
-            <button
-              className="btn btn-danger btn-sm"
-              onClick={handleDelete}
-            >
-              Delete
-            </button>
-
-          </div>
+            </div>
 
         </div>
-
-      </div>
-
-    </div>
-  );
+    );
 }
 
 export default PropertyCard;
